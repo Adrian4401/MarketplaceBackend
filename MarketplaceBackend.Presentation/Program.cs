@@ -1,12 +1,38 @@
 using MarketplaceBackend.Presentation;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<AnnoucementDb>(opt => opt.UseInMemoryDatabase("AnnoucementsList"));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+//Swagger
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Title = "Marketplace API",
+        Version = "v1",
+        Description = "API for marketplace app",
+        Contact = new OpenApiContact
+        {
+            Name = "Test"
+        }
+    });
+});
 var app = builder.Build();
 
-app.Urls.Add("https://localhost:4000");
+//Swagger middleware
+if(app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Marketplace API v1");
+    });
+}
+
+//app.Urls.Add("https://localhost:4000");
 
 app.MapGet("/", () => "Server works!");
 
@@ -27,6 +53,7 @@ app.MapPost("/annoucement-add", async (Annoucement annoucement, AnnoucementDb db
     return Results.Created($"/annoucements/{annoucement.Id}", annoucement);
 });
 
+//app.MapControllers();
 app.Run();
 
 /// Autoryzacja za pomoc¹ JWT
