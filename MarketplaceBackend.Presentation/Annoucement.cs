@@ -1,4 +1,6 @@
-﻿namespace MarketplaceBackend.Presentation
+﻿//Model for annoucements
+
+namespace MarketplaceBackend.Presentation
 {
     public class Annoucement
     {

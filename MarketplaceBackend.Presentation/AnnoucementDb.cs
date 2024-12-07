@@ -1,4 +1,6 @@
-﻿using MarketplaceBackend.Presentation;
+﻿//Database context
+
+using MarketplaceBackend.Presentation;
 using Microsoft.EntityFrameworkCore;
 
 class AnnoucementDb: DbContext
