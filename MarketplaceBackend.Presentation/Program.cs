@@ -1,8 +1,9 @@
-using MarketplaceBackend.Presentation;
+using MarketplaceBackend.Presentation.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddDbContext<AnnoucementDb>(opt => opt.UseNpgsql(builder.Configuration.GetConnectionString("DatabaseConnection")));
 builder.Services.AddDbContext<AnnoucementDb>(opt => opt.UseInMemoryDatabase("AnnoucementsList"));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 //Swagger
@@ -34,6 +35,7 @@ if(app.Environment.IsDevelopment())
 
 //app.Urls.Add("https://localhost:4000");
 
+//Endpoints
 app.MapGet("/", () => "Server works!");
 
 app.MapGet("/annoucements", async (AnnoucementDb db) => 
@@ -47,6 +49,11 @@ app.MapGet("/annoucement/{id}", async(int id, AnnoucementDb db) =>
 
 app.MapPost("/annoucement-add", async (Annoucement annoucement, AnnoucementDb db) =>
 {
+    if(string.IsNullOrWhiteSpace(annoucement.Title))
+    {
+        return Results.BadRequest("Title is required");
+    }
+
     db.Annoucements.Add(annoucement);
     await db.SaveChangesAsync();
 
