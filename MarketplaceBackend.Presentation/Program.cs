@@ -3,9 +3,24 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
+
+//CORS policy
+builder.Services.AddCors(opt =>
+{
+    opt.AddDefaultPolicy(policy =>
+    {
+        policy
+        .AllowAnyOrigin()
+        .AllowAnyMethod()
+        .AllowAnyHeader();
+    });
+});
+
+builder.Services.AddControllers();
 builder.Services.AddDbContext<AnnoucementDb>(opt => opt.UseNpgsql(builder.Configuration.GetConnectionString("DatabaseConnection")));
 builder.Services.AddDbContext<AnnoucementDb>(opt => opt.UseInMemoryDatabase("AnnoucementsList"));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+
 //Swagger
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
@@ -33,8 +48,6 @@ if(app.Environment.IsDevelopment())
     });
 }
 
-//app.Urls.Add("https://localhost:4000");
-
 //Endpoints
 app.MapGet("/", () => "Server works!");
 
@@ -60,18 +73,7 @@ app.MapPost("/annoucement-add", async (Annoucement annoucement, AnnoucementDb db
     return Results.Created($"/annoucements/{annoucement.Id}", annoucement);
 });
 
-//app.MapControllers();
+app.Urls.Add("http://localhost:4000");
+app.UseCors();
+app.MapControllers();
 app.Run();
-
-/// Autoryzacja za pomoc¹ JWT
-/// Onion architecture (struktura projektu), biblioteka Mediatr
-/// Entity framework core v7 (do po³¹czenia z baz¹)
-/// Do walidacji biblioteka FluentValidation
-/// Jak dodaæ Swagger
-/// 
-/// Baza PostGres (mo¿liwe korzystanie z Docker :((()
-/// Relacje 1->1, 1->Wielu, Wiele->Wielu
-/// Indeksy do kolumn
-/// Wysy³aæ daty w formacie ISO, daty UTC, lepiej DateTimeOffset
-/// 
-/// Postman do ³¹czenia siê z API
