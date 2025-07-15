@@ -101,7 +101,7 @@ app.MapGet("/annoucement/{id}", async(int id, AnnoucementDb db) =>
             ? Results.Ok(annoucement)
             : Results.NotFound());
 
-app.MapPost("/annoucement-add", async (Annoucement annoucement, AnnoucementDb db) =>
+app.MapPost("/annoucement", async (Annoucement annoucement, AnnoucementDb db) =>
 {
     if(string.IsNullOrWhiteSpace(annoucement.Title))
     {
