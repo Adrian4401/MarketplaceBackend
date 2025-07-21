@@ -92,27 +92,27 @@ app.MapPost("/login", () =>
     return Results.Ok(new { token = jwtToken });
 });
 
-app.MapGet("/annoucements", async (AnnoucementDb db) => 
-    await db.Annoucements.ToListAsync());
+// app.MapGet("/annoucements", async (AnnoucementDb db) => 
+//     await db.Annoucements.ToListAsync());
 
-app.MapGet("/annoucement/{id}", async(int id, AnnoucementDb db) => 
-    await db.Annoucements.FindAsync(id) 
-        is Annoucement annoucement
-            ? Results.Ok(annoucement)
-            : Results.NotFound());
+// app.MapGet("/annoucement/{id}", async(int id, AnnoucementDb db) => 
+//     await db.Annoucements.FindAsync(id) 
+//         is Annoucement annoucement
+//             ? Results.Ok(annoucement)
+//             : Results.NotFound());
 
-app.MapPost("/annoucement-add", async (Annoucement annoucement, AnnoucementDb db) =>
-{
-    if(string.IsNullOrWhiteSpace(annoucement.Title))
-    {
-        return Results.BadRequest("Title is required");
-    }
+// app.MapPost("/annoucement-add", async (Annoucement annoucement, AnnoucementDb db) =>
+// {
+//     if(string.IsNullOrWhiteSpace(annoucement.Title))
+//     {
+//         return Results.BadRequest("Title is required");
+//     }
 
-    db.Annoucements.Add(annoucement);
-    await db.SaveChangesAsync();
+//     db.Annoucements.Add(annoucement);
+//     await db.SaveChangesAsync();
 
-    return Results.Created($"/annoucements/{annoucement.Id}", annoucement);
-});
+//     return Results.Created($"/annoucements/{annoucement.Id}", annoucement);
+// });
 
 app.Urls.Add("http://localhost:4000");
 app.UseCors();
