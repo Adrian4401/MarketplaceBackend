@@ -1,0 +1,12 @@
+﻿@MarketplaceBackend.Presentation_HostAddress = https://localhost:7287
+
+# POST {{MarketplaceBackend.Presentation_HostAddress}}/annoucement-add
+# Content-Type: application/json
+
+# {
+#   "title": "Test 1",
+#   "description": "Desc 1",
+#   "price": 100
+# }
+
+GET {{MarketplaceBackend.Presentation_HostAddress}}/annoucements
