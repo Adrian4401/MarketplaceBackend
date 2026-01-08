@@ -6,7 +6,7 @@ namespace MarketplaceBackend.Presentation.Controllers
 {
 
     [ApiController]
-    [Route("[controller]")]
+    [Route("annoucement")]
     public class AnnoucementController : ControllerBase
     {
         private readonly AnnoucementDb _db;

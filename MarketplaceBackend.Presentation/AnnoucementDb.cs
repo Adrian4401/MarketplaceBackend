@@ -4,7 +4,7 @@ using MarketplaceBackend.Presentation.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-public class AnnoucementDb: DbContext
+public class AnnoucementDb : DbContext
 {
     public AnnoucementDb(DbContextOptions<AnnoucementDb> options)
         : base(options) { }
